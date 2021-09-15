@@ -161,7 +161,18 @@ fig.add_annotation(
 
 fig.add_annotation(
             x=.106,
-            y= .35,
+            y= .34,
+            xref="paper",
+            yref="paper",
+            text= '------------------------------------------------------------------------------------------------------------------------------------------------------------------------------',
+            showarrow=False,
+            font=dict(
+            size=10,
+            color="#424949"
+            ))
+fig.add_annotation(
+            x=.106,
+            y= .30,
             xref="paper",
             yref="paper",
             text= '<i>' + "Data Source: CoinCap API, Binance as of " + date_time + '</i>',
@@ -171,6 +182,26 @@ fig.add_annotation(
             color="white"
             ))
 
+fig.add_annotation(
+        x=.095,
+        y=.377,
+        xref="paper",
+        yref="paper",
+        showarrow=True,
+        font=dict(
+            family="Courier New, monospace",
+            size=16,
+            color="#ffffff"
+            ),
+        align="center",
+        arrowhead=2,
+        arrowsize=2,
+        arrowwidth=2,
+        arrowcolor="#f2a900",
+        ax=-50,
+        ay=0,
+        opacity=0.8
+        )
 # fig.update_layout(xaxi)
 fig.show()
 
