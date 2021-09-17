@@ -1,12 +1,17 @@
-import plotly 
-import bt 
+# import plotly 
+# import bt 
 
 import requests
-import pandas as pd
-from sqlalchemy.orm import Session
+# import pandas as pd
+# from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from PIL import Image
+import slack
+
+slack_token = "xoxb-2494974236230-2494977536086-Ag9YR6pDVxASp0U9ol8rkY1S"
+client = slack.WebClient(token = "xoxb-2494974236230-2494977536086-Ag9YR6pDVxASp0U9ol8rkY1S")
+# client.chat_postMessage(channel="#bitcoin-table", text = "Hello")
 
 img = Image.open("Background.jpg")
 
@@ -170,6 +175,7 @@ fig.add_annotation(
             size=10,
             color="#424949"
             ))
+
 fig.add_annotation(
             x=.106,
             y= .30,
@@ -203,6 +209,12 @@ fig.add_annotation(
         opacity=0.8
         )
 # fig.update_layout(xaxi)
-fig.show()
+# fig.show()
 
-fig.write_image("fig.png", height = 1100, width = 1000)
+fig.write_image("bitcoin_returns.png", height = 1100, width = 1000)
+
+result = client.files_upload(
+    channels="bitcoin-table",
+    initial_comment="Updated Bitcoin Table :smile:",
+    file="bitcoin_returns.png",
+)
