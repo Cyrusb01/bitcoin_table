@@ -7,6 +7,9 @@ import requests
 from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from PIL import Image
+import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output
 import slack
 
 slack_token = "xoxb-2494974236230-2494977536086-Ag9YR6pDVxASp0U9ol8rkY1S"
@@ -120,7 +123,7 @@ fig.update_layout(
             "paper_bgcolor": "rgba(0, 0, 0, 0)",
         },
         height = 1100,
-        # font = dict(family = 'roboto')
+        font = dict(family = 'roboto')
 )
 fig.add_layout_image(
         dict(
@@ -211,10 +214,39 @@ fig.add_annotation(
 # fig.update_layout(xaxi)
 # fig.show()
 
+# a
+
+
+
 fig.write_image("bitcoin_returns.png", height = 1100, width = 1000)
 
-result = client.files_upload(
-    channels="bitcoin-table",
-    initial_comment="Updated Bitcoin Table :smile:",
-    file="bitcoin_returns.png",
-)
+# result = client.files_upload(
+#     channels="bitcoin-table",
+#     initial_comment="Updated Bitcoin Table :smile:",
+#     file="bitcoin_returns.png",
+# )
+
+
+
+############################################################# Dash App Trial Code #####################################################
+# app = dash.Dash(__name__)
+
+# app.layout = html.Div([
+#     dcc.Graph(figure = fig),
+#     dcc.Input( 
+#         id = "input"
+#     ),
+#     html.Div(id = "output_test")
+# ])
+
+# @app.callback(
+#     Output("output_test", "value"),
+#      [Input('input', 'value')],
+     
+# )
+# def display_graph(render_option):
+#     fig.update_layout(font = {"family": "roboto"})
+#     fig.write_image("bitcoin_returns.png", height = 1100, width = 1000)
+#     return "basic"
+
+# app.run_server(debug=True)
