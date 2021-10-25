@@ -19,18 +19,18 @@ print(choice)
 
 
 
-slack_token = "ENTER SLACK TOKEN HERE"  # Onramp
+# slack_token = "ENTER SLACK TOKEN HERE"  # Onramp
 
-client = slack_sdk.WebClient(token=slack_token)  # sets up our connection
+# client = slack_sdk.WebClient(token=slack_token)  # sets up our connection
 # client.chat_postMessage(channel="#bitcoin-table", text = "Hello")  #Testing sending a message
 
 
 labels = [
     "",
-    "<b>Year<b>",
-    "<b>Start Price<b>",
-    "<b>End Price<b>",
-    "<b>% Change<b>",
+    "<b>YEAR<b>",
+    "<b>START PRICE<b>",
+    "<b>END PRICE<b>",
+    "<b>% CHANGE<b>",
     "",
 ]
 
@@ -221,8 +221,8 @@ First we do the coloring and styling, quite a process for custom text coloring
 Then the actual figure is created 
 Lastly the annotations are set
 """
-onramp_col = "#00EEAD"
-red = "#FF600E"
+onramp_col = "#00DB0B"
+red = "#FF0000"
 # Coloring
 text_color = []
 text_color.append(["white"])
@@ -256,21 +256,16 @@ else:
 fig = go.Figure(
     data=[
         go.Table(
-            columnwidth=[40, 80, 80, 80, 80, 40],
+            columnwidth=[41, 70, 70, 70, 70, 60],
             header=dict(
                 values=labels,
                 line_color="rgba(0, 0, 0, 0)",
                 fill_color=[
-                    "rgba(0, 0, 0, 0)",
-                    "#424949",
-                    "#424949",
-                    "#424949",
-                    "#424949",
-                    "rgba(0, 0, 0, 0)",
+                    "rgba(0, 0, 0, 0)"
                 ],
                 align="left",
-                font=dict(color="white", size=22),
-                height=32,
+                font=dict(color="white", size=35, family = "BentonSans Black"),
+                height=80,
             ),
             cells=dict(
                 values=[
@@ -282,9 +277,9 @@ fig = go.Figure(
                     empty_row,
                 ],
                 line_color="rgba(0, 0, 0, 0)",
-                font=dict(color=text_color, size=19),
+                font=dict(color=text_color, size=30, family = "BentonSans Black"),
                 align="left",
-                height=40,
+                height=60,
                 fill_color="rgba(0, 0, 0, 0)",
             ),
         )
@@ -297,103 +292,102 @@ fig.update_layout(
         "plot_bgcolor": "rgba(0, 0, 0, 0)",  # Transparent
         "paper_bgcolor": "rgba(0, 0, 0, 0)",
     },
-    height=1100,
-    # font = dict(family = 'roboto')
+    height=1081,
+    # font = dict(family = "Nocturne Serif Bold")
 )
 
 # Sets the background image
-img = Image.open("Background.jpg")
+img = Image.open("image.png")
 fig.add_layout_image(
     dict(
         source=img,
         xref="paper",
         yref="paper",
         x=1,
-        y=0.2,
+        y=0,
         sizex=1,
-        sizey=1,
+        sizey=1.15,
         xanchor="right",
         yanchor="bottom",
         layer="below",
     )
 )
 
-fig.update_layout(margin=dict(l=1, r=1, t=300, b=1))
+fig.update_layout(margin=dict(l=1, r=1, t=150, b=1))
 
 
 # Adds the Bitcoin Returns text at the top
 fig.add_annotation(
-    x=0.096,
-    y=1.07,
+    x=0.105,
+    y=1.09,
     xref="paper",
     yref="paper",
-    text=choice.capitalize(),
+    text= '<b>' + choice.capitalize() + '<b>',
     showarrow=False,
-    font=dict(size=30, color=crypto_color),
+    font=dict(size=80, color="white", family = "Nocturne Serif Bold"),
 )
 
 # Adds Returns 2010-2021 at the top
 # since text positioning is absolute longer words need to be accounted for, this was designed initially just for bitcoin
 shift = len(choice) - len("Bitcoin")
 fig.add_annotation(
-    x=0.214 + shift * 0.035,
-    y=1.07,
+    x=0.232 + shift * 0.035,
+    y=1.09,
     xref="paper",
     yref="paper",
-    text="Returns: 2010-2021",
+    text= '<b>' + "Returns: 2010-2021" + '<b>',
     showarrow=False,
-    font=dict(size=30, color="white"),
+    font=dict(size=80, color="white", family = "Nocturne Serif Bold"),
 )
 
 # adds dashed line
-fig.add_annotation(
-    x=0.106,
-    y=0.34,
-    xref="paper",
-    yref="paper",
-    text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
-    showarrow=False,
-    font=dict(size=10, color="#424949"),
-)
+# fig.add_annotation(
+#     x=0.106,
+#     y=0.34,
+#     xref="paper",
+#     yref="paper",
+#     text="------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
+#     showarrow=False,
+#     font=dict(size=10, color="#424949"),
+# )
 # Adds sourcing
 fig.add_annotation(
-    x=0.106,
-    y=0.30,
+    x=0.110,
+    y=0.11,
     xref="paper",
     yref="paper",
-    text="<i>" + "Data Source: CoinCap API, Binance as of " + str(dt_object) + " CDT"
-    "</i>",
+    text="Data Source: CoinCap API, Binance as of " + str(dt_object) + " CDT",
     showarrow=False,
-    font=dict(size=12, color="white"),
+    font=dict(size=20, color="white", family = "BentonSans Regular"),
 )
 
 # adds arrow
-arrow_shift = len(years_b) - len(years)
-fig.add_annotation(
-    x=0.095,
-    y=0.377 + arrow_shift * 0.05,
-    xref="paper",
-    yref="paper",
-    showarrow=True,
-    font=dict(family="Courier New, monospace", size=16, color="#ffffff"),
-    align="center",
-    arrowhead=2,
-    arrowsize=2,
-    arrowwidth=2,
-    arrowcolor=crypto_color,
-    ax=-50,
-    ay=0,
-    opacity=0.8,
-)
+# arrow_shift = len(years_b) - len(years)
+# fig.add_annotation(
+#     x=0.095,
+#     y=0.377 + arrow_shift * 0.05,
+#     xref="paper",
+#     yref="paper",
+#     showarrow=True,
+#     font=dict(family="Courier New, monospace", size=16, color="#ffffff"),
+#     align="center",
+#     arrowhead=2,
+#     arrowsize=2,
+#     arrowwidth=2,
+#     arrowcolor=crypto_color,
+#     ax=-50,
+#     ay=0,
+#     opacity=0.8,
+# )
 
 
 # makes the figure into a png
-fig.write_image("bitcoin_returns.png", height=1100, width=1000)
+fig.write_image("bitcoin_returns.png", height=1081, width=2074)
 
 
 # Sends the file into the slack channel
-result = client.files_upload(
-    channels="onramp-social-content",
-    initial_comment="Updated " + choice.capitalize() + "Table (TESTING) :smile:",
-    file="bitcoin_returns.png",
-)
+# result = client.files_upload(
+#     channels="onramp-social-content",
+#     initial_comment="Updated " + choice.capitalize() + "Table (TESTING) :smile:",
+#     file="bitcoin_returns.png",
+# )
