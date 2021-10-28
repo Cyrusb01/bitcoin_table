@@ -293,11 +293,11 @@ fig.update_layout(
         "paper_bgcolor": "rgba(0, 0, 0, 0)",
     },
     height=1081,
-    # font = dict(family = "Nocturne Serif Bold")
+    font = dict(family = "Nocturne Serif")
 )
 
 # Sets the background image
-img = Image.open("image.png")
+img = Image.open("new_background.png")
 fig.add_layout_image(
     dict(
         source=img,
@@ -306,38 +306,38 @@ fig.add_layout_image(
         x=1,
         y=0,
         sizex=1,
-        sizey=1.15,
+        sizey=1.165,
         xanchor="right",
         yanchor="bottom",
         layer="below",
     )
 )
 
-fig.update_layout(margin=dict(l=1, r=1, t=150, b=1))
+fig.update_layout(margin=dict(l=1, r=1, t=165, b=1))
 
 
 # Adds the Bitcoin Returns text at the top
 fig.add_annotation(
     x=0.105,
-    y=1.09,
+    y=1.11,
     xref="paper",
     yref="paper",
     text= '<b>' + choice.capitalize() + '<b>',
     showarrow=False,
-    font=dict(size=80, color="white", family = "Nocturne Serif Bold"),
+    font=dict(size=80, color="white", family = "Nocturne Serif"),
 )
 
 # Adds Returns 2010-2021 at the top
 # since text positioning is absolute longer words need to be accounted for, this was designed initially just for bitcoin
 shift = len(choice) - len("Bitcoin")
 fig.add_annotation(
-    x=0.232 + shift * 0.035,
-    y=1.09,
+    x=0.257 + shift * 0.035,
+    y=1.11,
     xref="paper",
     yref="paper",
     text= '<b>' + "Returns: 2010-2021" + '<b>',
     showarrow=False,
-    font=dict(size=80, color="white", family = "Nocturne Serif Bold"),
+    font=dict(size=80, color="white", family = "Nocturne Serif"),
 )
 
 # adds dashed line
@@ -352,7 +352,7 @@ fig.add_annotation(
 # )
 # Adds sourcing
 fig.add_annotation(
-    x=0.110,
+    x=0.105,
     y=0.11,
     xref="paper",
     yref="paper",
@@ -380,7 +380,7 @@ fig.add_annotation(
 #     opacity=0.8,
 # )
 
-
+# fig.show()
 # makes the figure into a png
 fig.write_image("bitcoin_returns.png", height=1081, width=2074)
 
