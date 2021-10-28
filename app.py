@@ -357,7 +357,7 @@ fig.add_annotation(
     y=0.11,
     xref="paper",
     yref="paper",
-    text="Data Source: CoinCap API, Binance as of " + str(dt_object) + " CDT",
+    text="Data Source: CoinCap API, Binance as of " + str(dt_object) + " UTC",
     showarrow=False,
     font=dict(size=20, color="white", family = "BentonSans Regular"),
 )
