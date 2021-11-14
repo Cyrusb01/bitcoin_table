@@ -20,9 +20,9 @@ print(choice)
 
 
 
-# slack_token = os.environ.get('SLACK_TOKEN')  # Onramp
+slack_token = os.environ.get('SLACK_TOKEN')  # Onramp
 
-# client = slack_sdk.WebClient(token=slack_token)  # sets up our connection
+client = slack_sdk.WebClient(token=slack_token)  # sets up our connection
 # client.chat_postMessage(channel="#bitcoin-table", text = "Hello")  #Testing sending a message
 
 
@@ -396,8 +396,8 @@ fig.write_image("bitcoin_returns.png", height=1081, width=2074)
 
 
 # Sends the file into the slack channel
-# result = client.files_upload(
-#     channels="onramp-social-content",
-#     initial_comment="Updated " + choice.capitalize() + "Table :smile:",
-#     file="bitcoin_returns.png",
-# )
+result = client.files_upload(
+    channels="onramp-social-content",
+    initial_comment="Updated " + choice.capitalize() + "Table :smile:",
+    file="bitcoin_returns.png",
+)
