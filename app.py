@@ -20,13 +20,16 @@ print(choice)
 
 
 
-slack_token = os.environ.get('SLACK_TOKEN')  # Onramp
+# slack_token = os.environ.get('SLACK_TOKEN')  # Onramp
 
-client = slack_sdk.WebClient(token=slack_token)  # sets up our connection
+# client = slack_sdk.WebClient(token=slack_token)  # sets up our connection
 # client.chat_postMessage(channel="#bitcoin-table", text = "Hello")  #Testing sending a message
 
 
 labels = [
+    # "",
+    "",
+    "",
     "",
     "<b>YEAR<b>",
     "<b>START PRICE<b>",
@@ -226,10 +229,13 @@ onramp_col = "#00DB0B"
 red = "#FF0000"
 # Coloring
 text_color = []
-text_color.append(["white"])
-text_color.append(["white"])
-text_color.append(["white"])
-text_color.append(["white"])
+text_color.append(["black"])
+text_color.append(["black"])
+text_color.append(["black"])
+text_color.append(["black"])
+text_color.append(["black"])
+text_color.append(["black"])
+# text_color.append(["black"])
 text_color.append(
     [
         onramp_col,
@@ -257,7 +263,7 @@ else:
 fig = go.Figure(
     data=[
         go.Table(
-            columnwidth=[41, 70, 70, 70, 70, 60],
+            columnwidth=[70, 70, 70, 70, 80, 70, 70, 40],
             header=dict(
                 values=labels,
                 line_color="rgba(0, 0, 0, 0)",
@@ -265,11 +271,14 @@ fig = go.Figure(
                     "rgba(0, 0, 0, 0)"
                 ],
                 align="left",
-                font=dict(color="white", size=35, family = "BentonSans Black"),
-                height=80,
+                font=dict(color="black", size=29, family = "BentonSans Black"),
+                height=90,
             ),
             cells=dict(
                 values=[
+                    # empty_row,
+                    empty_row,
+                    empty_row,
                     empty_row,
                     years,
                     start_price,
@@ -278,9 +287,9 @@ fig = go.Figure(
                     empty_row,
                 ],
                 line_color="rgba(0, 0, 0, 0)",
-                font=dict(color=text_color, size=30, family = "BentonSans Black"),
+                font=dict(color=text_color, size=25, family = "BentonSans Regular"),
                 align="left",
-                height=60,
+                height=50,
                 fill_color="rgba(0, 0, 0, 0)",
             ),
         )
@@ -298,7 +307,7 @@ fig.update_layout(
 )
 
 # Sets the background image
-img = Image.open("new_background.png")
+img = Image.open("background.jpg")
 fig.add_layout_image(
     dict(
         source=img,
@@ -307,39 +316,39 @@ fig.add_layout_image(
         x=1,
         y=0,
         sizex=1,
-        sizey=1.165,
+        sizey=1.200,
         xanchor="right",
         yanchor="bottom",
         layer="below",
     )
 )
 
-fig.update_layout(margin=dict(l=1, r=1, t=165, b=1))
+fig.update_layout(margin=dict(l=1, r=1, t=200, b=1))
 
 
 # Adds the Bitcoin Returns text at the top
-fig.add_annotation(
-    x=0.105,
-    y=1.11,
-    xref="paper",
-    yref="paper",
-    text= '<b>' + choice.capitalize() + '<b>',
-    showarrow=False,
-    font=dict(size=80, color="white", family = "Nocturne Serif"),
-)
+# fig.add_annotation(
+#     x=0.105,
+#     y=1.11,
+#     xref="paper",
+#     yref="paper",
+#     text= '<b>' + choice.capitalize() + '<b>',
+#     showarrow=False,
+#     font=dict(size=80, color="white", family = "Nocturne Serif"),
+# )
 
 # Adds Returns 2010-2021 at the top
 # since text positioning is absolute longer words need to be accounted for, this was designed initially just for bitcoin
-shift = len(choice) - len("Bitcoin")
-fig.add_annotation(
-    x=0.257 + shift * 0.035,
-    y=1.11,
-    xref="paper",
-    yref="paper",
-    text= '<b>' + "Returns: 2010-2021" + '<b>',
-    showarrow=False,
-    font=dict(size=80, color="white", family = "Nocturne Serif"),
-)
+# shift = len(choice) - len("Bitcoin")
+# fig.add_annotation(
+#     x=0.257 + shift * 0.035,
+#     y=1.11,
+#     xref="paper",
+#     yref="paper",
+#     text= '<b>' + "Returns: 2010-2021" + '<b>',
+#     showarrow=False,
+#     font=dict(size=80, color="white", family = "Nocturne Serif"),
+# )
 
 # adds dashed line
 # fig.add_annotation(
@@ -353,13 +362,13 @@ fig.add_annotation(
 # )
 # Adds sourcing
 fig.add_annotation(
-    x=0.105,
-    y=0.11,
+    x=0.537,
+    y=0.16,
     xref="paper",
     yref="paper",
     text="Data Source: CoinCap API, Binance as of " + str(dt_object) + " UTC",
     showarrow=False,
-    font=dict(size=20, color="white", family = "BentonSans Regular"),
+    font=dict(size=20, color="black", family = "BentonSans Regular"),
 )
 
 # adds arrow
@@ -387,8 +396,8 @@ fig.write_image("bitcoin_returns.png", height=1081, width=2074)
 
 
 # Sends the file into the slack channel
-result = client.files_upload(
-    channels="onramp-social-content",
-    initial_comment="Updated " + choice.capitalize() + "Table :smile:",
-    file="bitcoin_returns.png",
-)
+# result = client.files_upload(
+#     channels="onramp-social-content",
+#     initial_comment="Updated " + choice.capitalize() + "Table :smile:",
+#     file="bitcoin_returns.png",
+# )
