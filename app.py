@@ -54,7 +54,8 @@ years_b = [
     "2018",
     "2019",
     "2020",
-    "2021 YTD",
+    "2021",
+    "2022 YTD"
 ]
 start_price_b = [
     "0.003",
@@ -69,6 +70,7 @@ start_price_b = [
     "3,689",
     "7,184",
     "28,775",
+    "46,306"
 ]
 end_price_b = [
     "0.30",
@@ -82,6 +84,8 @@ end_price_b = [
     "3,689",
     "7,184",
     "28,775",
+    "46,306"
+
 ]
 percent_change_b = [
     "+9,000%",
@@ -157,8 +161,8 @@ crypto_color = dict_historic[choice]["color"]
 This portion uses coincap API to get the data for 2021, we only fetch this data because 
 all the historic data should already be in the csv, this lets us only make one API
 """
-start_time = datetime(2021, 1, 1, 0, 0)
-end_time = datetime(2022, 1, 1, 0, 0)
+start_time = datetime(2022, 1, 1, 0, 0)
+end_time = datetime(2023, 1, 1, 0, 0)
 # now = datetime.now().replace(hour=0, minute=0)
 
 
@@ -192,6 +196,7 @@ while True:
 df = pd.DataFrame(res["data"])
 df["period"] = pd.to_datetime(df["period"], unit="ms", origin="unix")
 
+
 #Use this later for the sourcing
 dt_object = datetime.now().replace(microsecond=0)
 
@@ -208,8 +213,8 @@ if percent_change_latest > 0:
     percent_change_latest = "+" + str(percent_change_latest)
     percent_change_latest += "%"
 elif percent_change_latest < 0:
-    percent_change_latest = "-" + str(percent_change_latest)
-    percent_change_latest += "%"
+    # percent_change_latest = "-" + str(percent_change_latest)
+    percent_change_latest = str(percent_change_latest) + "%" 
 
 percent_change.append(percent_change_latest)
 latest_price = "{:,}".format(round(latest_price))
@@ -236,8 +241,7 @@ text_color.append(["black"])
 text_color.append(["black"])
 text_color.append(["black"])
 # text_color.append(["black"])
-text_color.append(
-    [
+pos_neg =   [
         onramp_col,
         onramp_col,
         onramp_col,
@@ -247,17 +251,21 @@ text_color.append(
         onramp_col,
         onramp_col,
         red,
+        onramp_col,
         onramp_col,
         onramp_col,
     ]
-)
-last_price_check = latest_price.replace(",", "")
-last_price_check = last_price_check.replace("%", "")
-if float(last_price_check) > 0:
-    text_color.append([onramp_col])
-else:
-    text_color.append([red])
 
+last_price_check = percent_change_latest.replace(",", "")
+last_price_check = last_price_check.replace("%", "")
+
+
+if float(last_price_check) > 0:
+    pos_neg.append(onramp_col)
+else:
+    pos_neg.append(red)
+
+text_color.append(pos_neg)
 
 # creating the figure
 fig = go.Figure(
@@ -289,7 +297,7 @@ fig = go.Figure(
                 line_color="rgba(0, 0, 0, 0)",
                 font=dict(color=text_color, size=25, family = "BentonSans Regular"),
                 align="left",
-                height=50,
+                height=48,
                 fill_color="rgba(0, 0, 0, 0)",
             ),
         )
@@ -396,8 +404,8 @@ fig.write_image("bitcoin_returns.png", height=1081, width=2074)
 
 
 # Sends the file into the slack channel
-result = client.files_upload(
-    channels="onramp-social-content",
-    initial_comment="Updated " + choice.capitalize() + "Table :smile:",
-    file="bitcoin_returns.png",
-)
+# result = client.files_upload(
+#     channels="onramp-social-content",
+#     initial_comment="Updated " + choice.capitalize() + "Table :smile:",
+#     file="bitcoin_returns.png",
+# )
