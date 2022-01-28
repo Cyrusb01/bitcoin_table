@@ -409,3 +409,5 @@ result = client.files_upload(
     initial_comment="Updated " + choice.capitalize() + "Table :smile:",
     file="bitcoin_returns.png",
 )
+
+import post_twitter
